@@ -77,4 +77,4 @@ configuration.getRabbitMq()
 
 Examples
 -----
-[Producer/Consumer examples are located within the test directory](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example).
+[Producer/Consumer examples are located within the test directory](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example). There is a producer, which sends id's to a queue, and a consumer which does fake work on those id's and publishes a status to a topic.
