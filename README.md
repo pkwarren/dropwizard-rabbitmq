@@ -27,7 +27,25 @@ rabbitMqConsumer:
   networkRecoveryInterval: 5000
 ```
 
-However, please use the class [ConnectionFactory](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionFactory.java) in your configurations, which is a sub class of ConnectionConfiguration which knows how to create rabbitmq connections.
+However, please use the class [ConnectionFactory](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionFactory.java) in your configurations, which is a sub class of ConnectionConfiguration which knows how to create RabbitMQ connections. Here is the blurb from the examples.
+``` java
+public class JobConsumerServiceConfiguration extends Configuration {
+
+    @Valid
+    @NotNull
+    private ConnectionFactory rabbitMqConsumer = new ConnectionFactory();
+
+    @JsonProperty
+    public ConnectionFactory getRabbitMqConsumer() {
+        return rabbitMqConsumer;
+    }
+
+    @JsonProperty
+    public void setRabbitMqConsumer(ConnectionFactory rabbitMqConsumer) {
+        this.rabbitMqConsumer = rabbitMqConsumer;
+    }
+}
+```
 
 Simple Usage
 -----
@@ -56,3 +74,7 @@ final ExecutorService deliveryExecutor = environment.lifecycle()
 configuration.getRabbitMq()
     .buildRetryInitialConnect(environment, deliveryExecutor, "index-consumer", this::connected);
 ```
+
+Examples
+-----
+[Producer/Consumer examples are located within the test directory](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example).
