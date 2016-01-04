@@ -38,7 +38,7 @@
 
     <properties>
         <dropwizard.version>0.9.1</dropwizard.version>
-        <rabbitmq.version>3.5.6</rabbitmq.version>
+        <rabbitmq.version>3.6.0</rabbitmq.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
