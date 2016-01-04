@@ -8,10 +8,10 @@ Rabbitmq configuration, metrics, health-checks and lifecycle management integrat
 
 Configuration
 -----
-Configurations are mapped to the [ConnectionConfiguration](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionConfiguration.java) class.
-Below is an example configuration for [JobConsumerService](src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerService.java) which is configured by [JobConsumerServiceConfiguration](src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerServiceConfiguration.java).
-Naturally you can have multiple configurations per applicatiion.
-``` java
+Configurations are mapped to the class [ConnectionConfiguration](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionConfiguration.java).
+Below is an example configuration for [JobConsumerService](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerService.java) which is configured by [JobConsumerServiceConfiguration](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerServiceConfiguration.java).
+Naturally you can have multiple configurations per application.
+``` yaml
 rabbitMqConsumer:
   username: guest
   password: guest
@@ -26,6 +26,8 @@ rabbitMqConsumer:
   shutdownTimeout: 10000
   networkRecoveryInterval: 5000
 ```
+
+However, please use the class [ConnectionFactory](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionFactory.java) in your configurations, which is a sub class of ConnectionConfiguration which knows how to create rabbitmq connections.
 
 Simple Usage
 -----
