@@ -1,0 +1,22 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8082
+  adminConnectors:
+    - type: http
+      port: 8083
+
+rabbitMqConsumer:
+  username: guest
+  password: guest
+  virtualHost: /
+  host: localhost
+  port: 5672
+  requestedChannelMax: 0
+  requestedFrameMax: 0
+  requestedHeartbeat: 0
+  connectionTimeout: 0
+  handshakeTimeout: 10000
+  shutdownTimeout: 10000
+  networkRecoveryInterval: 5000
+#  clientProperties:

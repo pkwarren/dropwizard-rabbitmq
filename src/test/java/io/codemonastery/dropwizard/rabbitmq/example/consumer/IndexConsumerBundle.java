@@ -1,4 +1,4 @@
-package io.codemonastery.dropwizard.rabbitmq.example.generic_bundle;
+package io.codemonastery.dropwizard.rabbitmq.example.consumer;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
-public class IndexConsumerBundle implements ConfiguredBundle<IndexJobServiceConfiguration> {
+public class IndexConsumerBundle implements ConfiguredBundle<IndexConsumerServiceConfiguration> {
+
 
     public IndexConsumerBundle() {
-       
+
     }
 
 
@@ -23,19 +24,20 @@ public class IndexConsumerBundle implements ConfiguredBundle<IndexJobServiceConf
     }
 
     @Override
-    public void run(IndexJobServiceConfiguration configuration, Environment environment) throws Exception {
+    public void run(IndexConsumerServiceConfiguration configuration, Environment environment) throws Exception {
         final ExecutorService deliveryExecutor = environment.lifecycle()
-                .executorService("index-consumer-delivery-thread-pool").maxThreads(10).build();
-        configuration.getRabbitMq().buildRetryInitialConnect(environment, deliveryExecutor, "index-consumer", this::connected);
+                .executorService("index-consumer-delivery-thread-pool")
+                .maxThreads(10).build();
+        configuration.getRabbitMqConsumer().buildRetryInitialConnect(environment, deliveryExecutor, "index-consumer", this::connected);
     }
 
     public void connected(Connection connection) throws Exception {
         final Channel channel = connection.createChannel();
-        
+
         //idempotent setup
         setupIndexJobQueue(channel);
         setupJobStatusExchange(channel);
-        
+
         channel.basicConsume("index_job", new IndexConsumer(channel));
     }
 
