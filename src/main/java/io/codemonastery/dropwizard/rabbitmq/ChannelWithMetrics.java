@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 class ChannelWithMetrics implements Channel {
-    
+
     private final Channel delegate;
     private final WrappedConnectionMetrics connectionMetrics;
 
@@ -396,6 +396,16 @@ class ChannelWithMetrics implements Channel {
     @Override
     public Command rpc(Method method) throws IOException {
         return delegate.rpc(method);
+    }
+
+    @Override
+    public long messageCount(String s) throws IOException {
+        return delegate.messageCount(s);
+    }
+
+    @Override
+    public long consumerCount(String s) throws IOException {
+        return delegate.consumerCount(s);
     }
 
     @Override
