@@ -8,7 +8,9 @@ Rabbitmq configuration, metrics, health-checks and lifecycle management integrat
 
 Configuration
 -----
-Configurations are mapped to the [ConnectionConfiguration](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionConfiguration.java) class. Below is an example configuration for JobConsumerService. Naturally you can have multiple configurations per applicatiion.
+Configurations are mapped to the [ConnectionConfiguration](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionConfiguration.java) class.
+Below is an example configuration for [JobConsumerService](src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerService.java) which is configured by [JobConsumerServiceConfiguration](src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerServiceConfiguration.java).
+Naturally you can have multiple configurations per applicatiion.
 ``` java
 rabbitMqConsumer:
   username: guest
