@@ -4,10 +4,10 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-public class IndexProducerService extends Application<IndexProducerServiceConfiguration> {
+public class JobProducerService extends Application<JobProducerServiceConfiguration> {
 
     public static void main(String[] args) throws Exception {
-        new IndexProducerService().run(args);
+        new JobProducerService().run(args);
     }
 
     @Override
@@ -16,12 +16,12 @@ public class IndexProducerService extends Application<IndexProducerServiceConfig
     }
 
     @Override
-    public void initialize(Bootstrap<IndexProducerServiceConfiguration> bootstrap) {
-        bootstrap.addBundle(new IndexProducerBundle());
+    public void initialize(Bootstrap<JobProducerServiceConfiguration> bootstrap) {
+        bootstrap.addBundle(new JobProducerBundle());
     }
 
     @Override
-    public void run(IndexProducerServiceConfiguration configuration, Environment environment) throws Exception {
+    public void run(JobProducerServiceConfiguration configuration, Environment environment) throws Exception {
         //nothing to do here, delivery logic is in the IndexProducerBundle
     }
 }

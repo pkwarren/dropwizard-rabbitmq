@@ -4,11 +4,30 @@ Dropwizard RabbitMQ
 
 [![Build Status](https://travis-ci.org/code-monastery/dropwizard-rabbitmq.svg?branch=master)](https://travis-ci.org/code-monastery/dropwizard-rabbitmq)
 
-Rabbitmq configuration, metrics, health-checks and lifecycle management integrated with dropwizard, focused on common use cases. Inspired by dropwizard-core and [dropwizard-extra](//github.com/datasift/dropwizard-extra). 
+Rabbitmq configuration, metrics, health-checks and lifecycle management integrated with dropwizard, focused on common use cases. Inspired by dropwizard-core and [dropwizard-extra](//github.com/datasift/dropwizard-extra).
+
+Configuration
+-----
+Configurations are mapped to the [ConnectionConfiguration](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionConfiguration.java) class. Below is an example configuration for JobConsumerService. Naturally you can have multiple configurations per applicatiion.
+``` java
+rabbitMqConsumer:
+  username: guest
+  password: guest
+  virtualHost: /
+  host: localhost
+  port: 5672
+  requestedChannelMax: 0
+  requestedFrameMax: 0
+  requestedHeartbeat: 0
+  connectionTimeout: 0
+  handshakeTimeout: 10000
+  shutdownTimeout: 10000
+  networkRecoveryInterval: 5000
+```
 
 Simple Usage
 -----
-Easy to use, but if initial connection fails no retry will be performed.
+Easy to use, but if initial connection fails no retry will be performed. This **may** be preferable if your application is running in a container manager which will reset your application on failure.
 ``` java
 final ExecutorService deliveryExecutor = environment.lifecycle()
     .executorService("index-consumer-delivery-thread-pool")

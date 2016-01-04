@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
-public class IndexConsumerBundle implements ConfiguredBundle<IndexConsumerServiceConfiguration> {
+public class JobConsumerBundle implements ConfiguredBundle<JobConsumerServiceConfiguration> {
 
 
-    public IndexConsumerBundle() {
+    public JobConsumerBundle() {
 
     }
 
@@ -24,7 +24,7 @@ public class IndexConsumerBundle implements ConfiguredBundle<IndexConsumerServic
     }
 
     @Override
-    public void run(IndexConsumerServiceConfiguration configuration, Environment environment) throws Exception {
+    public void run(JobConsumerServiceConfiguration configuration, Environment environment) throws Exception {
         final ExecutorService deliveryExecutor = environment.lifecycle()
                 .executorService("index-consumer-delivery-thread-pool")
                 .maxThreads(10).build();
@@ -38,7 +38,7 @@ public class IndexConsumerBundle implements ConfiguredBundle<IndexConsumerServic
         setupIndexJobQueue(channel);
         setupJobStatusExchange(channel);
 
-        channel.basicConsume("index_job", new IndexConsumer(channel));
+        channel.basicConsume("index_job", new JobConsumer(channel));
     }
 
     private void setupJobStatusExchange(Channel channel) throws IOException {

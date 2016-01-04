@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class IndexConsumer extends DefaultConsumer {
+public class JobConsumer extends DefaultConsumer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IndexConsumer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JobConsumer.class);
     public static final AMQP.BasicProperties PROPS = new AMQP.BasicProperties();
 
-    public IndexConsumer(Channel channel) {
+    public JobConsumer(Channel channel) {
         super(channel);
     }
 

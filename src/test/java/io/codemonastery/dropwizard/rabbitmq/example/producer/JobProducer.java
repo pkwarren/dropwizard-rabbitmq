@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class IndexProducer {
+public class JobProducer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IndexProducer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JobProducer.class);
 
     private final AtomicLong jodIdFactory = new AtomicLong(0L);
 

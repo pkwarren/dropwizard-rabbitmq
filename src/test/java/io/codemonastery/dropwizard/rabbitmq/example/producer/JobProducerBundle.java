@@ -8,16 +8,15 @@ import io.dropwizard.setup.Environment;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class IndexProducerBundle implements ConfiguredBundle<IndexProducerServiceConfiguration> {
+public class JobProducerBundle implements ConfiguredBundle<JobProducerServiceConfiguration> {
 
-    private final IndexProducer producer = new IndexProducer();
+    private final JobProducer producer = new JobProducer();
     private volatile Channel channel;
 
-    public IndexProducerBundle() {
+    public JobProducerBundle() {
 
     }
 
@@ -27,7 +26,7 @@ public class IndexProducerBundle implements ConfiguredBundle<IndexProducerServic
     }
 
     @Override
-    public void run(IndexProducerServiceConfiguration configuration, Environment environment) throws Exception {
+    public void run(JobProducerServiceConfiguration configuration, Environment environment) throws Exception {
         final ScheduledExecutorService sendExecutor = environment.lifecycle()
                 .scheduledExecutorService("send-executor")
                 .build();

@@ -7,7 +7,7 @@ import io.dropwizard.Configuration;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class IndexConsumerServiceConfiguration extends Configuration {
+public class JobConsumerServiceConfiguration extends Configuration {
 
     @Valid
     @NotNull
