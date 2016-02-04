@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <prerequisites>
+        <maven>3.3.3</maven>
+    </prerequisites>
 
     <groupId>io.codemonastery</groupId>
     <artifactId>dropwizard-rabbitmq</artifactId>
@@ -37,7 +40,7 @@
     </developers>
 
     <properties>
-        <dropwizard.version>0.9.1</dropwizard.version>
+        <dropwizard.version>0.9.2</dropwizard.version>
         <rabbitmq.version>3.6.0</rabbitmq.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -56,7 +59,7 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>1.3.9</version>
+            <version>3.0.1</version>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
@@ -92,7 +95,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.5</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -101,7 +104,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>2.4.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -144,7 +147,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.2.201409121644</version>
+                <version>0.7.5.201505241946</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -157,16 +160,12 @@
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <!--suppress MavenModelInspection -->
-                    <repoToken>${env.coverallstoken}</repoToken>
-                </configuration>
+                <version>4.1.0</version>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
+                <version>1.6.6</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -177,7 +176,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.5.3</version>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <useReleaseProfile>false</useReleaseProfile>
