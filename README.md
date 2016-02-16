@@ -5,7 +5,7 @@ Dropwizard RabbitMQ
 [![Build Status](https://travis-ci.org/code-monastery/dropwizard-rabbitmq.svg?branch=master)](https://travis-ci.org/code-monastery/dropwizard-rabbitmq)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.codemonastery/dropwizard-rabbitmq/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.codemonastery/dropwizard-rabbitmq)
 
-Rabbitmq configuration, metrics, health-checks and lifecycle management integrated with dropwizard, focused on common use cases. Inspired by dropwizard-core and [dropwizard-extra](//github.com/datasift/dropwizard-extra).
+Rabbitmq configuration, metrics, health-checks and lifecycle management integrated with dropwizard, focused on common use cases. Inspired by [dropwizard-core](https://github.com/dropwizard/dropwizard/tree/master/dropwizard-core) and [dropwizard-extra](//github.com/datasift/dropwizard-extra).
 
 Configuration
 -----
