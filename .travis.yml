@@ -1,12 +1,14 @@
 sudo: false
 language: java
 jdk:
-  - oraclejdk8
-services:
-  rabbitmq
+- oraclejdk8
+services: rabbitmq
 cache:
   directories:
-    - $HOME/.m2
+  - $HOME/.m2
 install: mvn -DskipTests=true -Dbasepom.check.skip-all=true -B install
 after_success:
-  - bash .travis_after_success.sh
+- bash .travis_after_success.sh
+notifications:
+  slack:
+    secure: n5KdJSYgGlk6ciWj+QkMTNYwoLlCUscu5S5oVHsbEIl4tpSrwh+UvNqS17i9T7PpQu69LK7T5WlGos5Pj08DNEJA0x9k2J+341KoKYd/upYO1CQ3uihzkvp8G7yFY4V9HQ7XLN0OmFltio7B4JMSjoipaq2hIYtOIH7u3c3wKvfIuegEPpjJVobwc/jI7deTM+V2HsN7fLTN5HTI1GJYOLPcFuOmh7sTLw4XO0OyeahD3YjhjNl99ps+NlSDJ5uTD5GBNsKcBDiUmgYhauNL61oHuwkThyEyfWSKuq4IFukkcxneksCK01sWiS+RNmPTCdUnGrRm3IIutCkDWi8KmvUltQPygvmT0EjmsOCeq452JBrY1cr1781oFAIKscf1NZRulXj9I/wvZnz8mqvtnSKjtvHMud2lLl909ewJ884RNo8yKyrlZ8YD7eRn7xpRxpG80VLEiOSh2kwJgEaMuEDr2q+wkLsIhGRfgp2lhpFEd9c7oRxQAGoJDI+XbZK64nyZ6UXHtQlkENIsJwbH9LuO09e/TotcxDDzwx5K55gCsSBBFdzduUyfzLWuqFpkiM/ANTA9B5sHpf0Un+lSTPCnIwGfnN+vPEF8coeODIC31J7ks6N4C7hEcwzX72PDV9sjrozyf2Id4309Te4Rq8X0bEtBlXJXP/Si3UJ6Q5c=
