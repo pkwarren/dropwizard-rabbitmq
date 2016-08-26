@@ -76,6 +76,7 @@ class ChannelWithMetrics implements Channel {
         return delegate.removeFlowListener(listener);
     }
 
+    @Deprecated
     @Override
     public void clearFlowListeners() {
         delegate.clearFlowListeners();
