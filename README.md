@@ -21,11 +21,11 @@ rabbitMqConsumer:
   port: 5672
   requestedChannelMax: 0
   requestedFrameMax: 0
-  requestedHeartbeat: 0
-  connectionTimeout: 0
-  handshakeTimeout: 10000
-  shutdownTimeout: 10000
-  networkRecoveryInterval: 5000
+  requestedHeartbeat: 0s
+  connectionTimeout: 0ms
+  handshakeTimeout: 10000ms
+  shutdownTimeout: 10000ms
+  networkRecoveryInterval: 5000ms
 ```
 
 However, please use the class [ConnectionFactory](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionFactory.java) in your configurations, which is a sub class of ConnectionConfiguration which knows how to create RabbitMQ connections. Here is the blurb from the examples.
