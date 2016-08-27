@@ -2,20 +2,8 @@
 
 mvn -B jacoco:report #coveralls:report
 
-if [[ -n ${TRAVIS_TAG} ]]; then
-    echo "Skipping deployment for tag \"${TRAVIS_TAG}\""
-    exit
+version_match=`perl -e "print '$TRAVIS_TAG' =~ /^dropwizard-rabbitmq-\d+\.\d+\.\d+\.\d+$/"`
+if [[ "$version_match" == "1" ]]; then
+    mvn versions:set -DnewVersion=$TRAVIS_TAG
+    mvn clean deploy -DskipTests=true -B
 fi
-
-if [[ ${TRAVIS_BRANCH} != 'master' ]]; then
-    echo "Skipping deployment for branch \"${TRAVIS_BRANCH}\""
-    exit
-fi
-
-if [[ "$TRAVIS_PULL_REQUEST" = "true" ]]; then
-    echo "Skipping deployment for pull request"
-    exit
-fi
-
-mvn clean release:clean release:prepare -B
-mvn release:perform
