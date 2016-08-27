@@ -2,7 +2,12 @@ sudo: false
 language: java
 jdk:
 - oraclejdk8
-services: rabbitmq
+services:
+  - rabbitmq
+addons:
+  apt:
+    packages:
+
 cache:
   directories:
   - $HOME/.m2
@@ -10,7 +15,8 @@ before_install:
   - gpg --with-colons --list-config ciphername
   - gpg --with-colons --list-config digestname
   - openssl aes-256-cbc -K $encrypted_24eb30c882c2_key -iv $encrypted_24eb30c882c2_iv -in cm.private.key.enc -out cm.private.key -d
-  - echo y | gpg -v --allow-secret-key-import --import cm.private.key
+  - gpg --import cm.key
+  - gpg -v --allow-secret-key-import --import cm.private.key
 install: mvn -DskipTests=true -Dbasepom.check.skip-all=true -B install
 after_success:
 - bash .travis_after_success.sh
