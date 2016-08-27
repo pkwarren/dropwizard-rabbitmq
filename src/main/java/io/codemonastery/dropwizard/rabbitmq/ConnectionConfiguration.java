@@ -2,9 +2,12 @@ package io.codemonastery.dropwizard.rabbitmq;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
+import io.dropwizard.util.Duration;
+import io.dropwizard.validation.MinDuration;
 
 import javax.validation.constraints.Min;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ConnectionConfiguration {
 
@@ -25,22 +28,22 @@ public class ConnectionConfiguration {
     @Min(0)
     private Integer requestedFrameMax;
 
-    @Min(0)
-    private Integer requestedHeartbeat;
+    @MinDuration(value = 0, unit = TimeUnit.SECONDS)
+    private Duration requestedHeartbeat;
 
-    @Min(0)
-    private Integer connectionTimeout;
+    @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    private Duration connectionTimeout;
 
-    @Min(0)
-    private Integer handshakeTimeout;
+    @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    private Duration handshakeTimeout;
 
-    @Min(0)
-    private Integer shutdownTimeout;
+    @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    private Duration shutdownTimeout;
 
     private Map<String, Object> clientProperties;
 
-    @Min(0)
-    private Long networkRecoveryInterval;
+    @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    private Duration networkRecoveryInterval;
 
     @JsonProperty
     public String getUsername() {
@@ -113,42 +116,42 @@ public class ConnectionConfiguration {
     }
 
     @JsonProperty
-    public Integer getRequestedHeartbeat() {
+    public Duration getRequestedHeartbeat() {
         return requestedHeartbeat;
     }
 
     @JsonProperty
-    public void setRequestedHeartbeat(Integer requestedHeartbeat) {
+    public void setRequestedHeartbeat(Duration requestedHeartbeat) {
         this.requestedHeartbeat = requestedHeartbeat;
     }
 
     @JsonProperty
-    public Integer getConnectionTimeout() {
+    public Duration getConnectionTimeout() {
         return connectionTimeout;
     }
 
     @JsonProperty
-    public void setConnectionTimeout(Integer connectionTimeout) {
+    public void setConnectionTimeout(Duration connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
     }
 
     @JsonProperty
-    public Integer getHandshakeTimeout() {
+    public Duration getHandshakeTimeout() {
         return handshakeTimeout;
     }
 
     @JsonProperty
-    public void setHandshakeTimeout(Integer handshakeTimeout) {
+    public void setHandshakeTimeout(Duration handshakeTimeout) {
         this.handshakeTimeout = handshakeTimeout;
     }
 
     @JsonProperty
-    public Integer getShutdownTimeout() {
+    public Duration getShutdownTimeout() {
         return shutdownTimeout;
     }
 
     @JsonProperty
-    public void setShutdownTimeout(Integer shutdownTimeout) {
+    public void setShutdownTimeout(Duration shutdownTimeout) {
         this.shutdownTimeout = shutdownTimeout;
     }
 
@@ -163,12 +166,12 @@ public class ConnectionConfiguration {
     }
 
     @JsonProperty
-    public Long getNetworkRecoveryInterval() {
+    public Duration getNetworkRecoveryInterval() {
         return networkRecoveryInterval;
     }
 
     @JsonProperty
-    public void setNetworkRecoveryInterval(Long networkRecoveryInterval) {
+    public void setNetworkRecoveryInterval(Duration networkRecoveryInterval) {
         this.networkRecoveryInterval = networkRecoveryInterval;
     }
 
@@ -180,12 +183,18 @@ public class ConnectionConfiguration {
         final String vhost = Optional.fromNullable(getVirtualHost()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_VHOST);
         final String host = Optional.fromNullable(getHost()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_HOST);
         final int amqpPort = Optional.fromNullable(getPort()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_AMQP_PORT);
-        final int channelMax = Optional.fromNullable(getRequestedChannelMax()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_CHANNEL_MAX);
-        final int frameMax = Optional.fromNullable(getRequestedFrameMax()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_FRAME_MAX);
-        final int defaultHeartbeat = Optional.fromNullable(getRequestedHeartbeat()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_HEARTBEAT);
-        final int connectionTimeout = Optional.fromNullable(getConnectionTimeout()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT);
-        final int handshakeTimeout = Optional.fromNullable(getHandshakeTimeout()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_HANDSHAKE_TIMEOUT);
-        final int shutdownTimeout = Optional.fromNullable(getShutdownTimeout()).or(com.rabbitmq.client.ConnectionFactory.DEFAULT_SHUTDOWN_TIMEOUT);
+        final int channelMax = Optional.fromNullable(getRequestedChannelMax())
+                .or(com.rabbitmq.client.ConnectionFactory.DEFAULT_CHANNEL_MAX);
+        final int frameMax = Optional.fromNullable(getRequestedFrameMax())
+                .or(com.rabbitmq.client.ConnectionFactory.DEFAULT_FRAME_MAX);
+        final Duration defaultHeartbeat = Optional.fromNullable(getRequestedHeartbeat())
+                .or(Duration.seconds(com.rabbitmq.client.ConnectionFactory.DEFAULT_HEARTBEAT));
+        final Duration connectionTimeout = Optional.fromNullable(getConnectionTimeout())
+                .or(Duration.milliseconds(com.rabbitmq.client.ConnectionFactory.DEFAULT_CONNECTION_TIMEOUT));
+        final Duration handshakeTimeout = Optional.fromNullable(getHandshakeTimeout())
+                .or(Duration.milliseconds(com.rabbitmq.client.ConnectionFactory.DEFAULT_HANDSHAKE_TIMEOUT));
+        final Duration shutdownTimeout = Optional.fromNullable(getShutdownTimeout())
+                .or(Duration.milliseconds(com.rabbitmq.client.ConnectionFactory.DEFAULT_SHUTDOWN_TIMEOUT));
 
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
@@ -194,10 +203,10 @@ public class ConnectionConfiguration {
         connectionFactory.setPort(amqpPort);
         connectionFactory.setRequestedChannelMax(channelMax);
         connectionFactory.setRequestedFrameMax(frameMax);
-        connectionFactory.setRequestedHeartbeat(defaultHeartbeat);
-        connectionFactory.setConnectionTimeout(connectionTimeout);
-        connectionFactory.setHandshakeTimeout(handshakeTimeout);
-        connectionFactory.setShutdownTimeout(shutdownTimeout);
+        connectionFactory.setRequestedHeartbeat((int) defaultHeartbeat.toSeconds());
+        connectionFactory.setConnectionTimeout((int) connectionTimeout.toMilliseconds());
+        connectionFactory.setHandshakeTimeout((int) handshakeTimeout.toMilliseconds());
+        connectionFactory.setShutdownTimeout((int) shutdownTimeout.toMilliseconds());
 
         //only write if not null
         if (clientProperties != null) {
@@ -207,7 +216,7 @@ public class ConnectionConfiguration {
         connectionFactory.setAutomaticRecoveryEnabled(true);
         connectionFactory.setTopologyRecoveryEnabled(true);
         if (networkRecoveryInterval != null) {
-            connectionFactory.setNetworkRecoveryInterval(networkRecoveryInterval);
+            connectionFactory.setNetworkRecoveryInterval(networkRecoveryInterval.toMilliseconds());
         }
         return connectionFactory;
     }

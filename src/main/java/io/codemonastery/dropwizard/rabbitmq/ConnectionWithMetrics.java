@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Map;
 
-class ConnectionWithMetrics implements Connection{
-    
+class ConnectionWithMetrics implements Connection {
+
     private final Connection delegate;
     private final WrappedConnectionMetrics connectionMetrics;
 

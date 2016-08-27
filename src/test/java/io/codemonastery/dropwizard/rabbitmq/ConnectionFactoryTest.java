@@ -8,6 +8,7 @@ import com.rabbitmq.client.Connection;
 import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.lifecycle.setup.ScheduledExecutorServiceBuilder;
 import io.dropwizard.setup.Environment;
+import io.dropwizard.util.Duration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,7 +101,7 @@ public class ConnectionFactoryTest {
     public void synchronousStartFailure() throws Exception {
         final ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setPort(5671);
-        connectionFactory.setConnectionTimeout(100);
+        connectionFactory.setConnectionTimeout(Duration.milliseconds(100));
         Connection connection = null;
         try {
             connection = connectionFactory.build(environment, deliveryExecutor, "ConnectionFactoryTest");
@@ -137,7 +138,7 @@ public class ConnectionFactoryTest {
     public void asynchronousStartFailureWillRetry() throws Exception {
         final ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setPort(5671);
-        connectionFactory.setConnectionTimeout(10);
+        connectionFactory.setConnectionTimeout(Duration.milliseconds(10));
 
         boolean[] called = {false};
         connectionFactory.buildRetryInitialConnect(
