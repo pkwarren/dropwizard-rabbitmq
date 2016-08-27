@@ -6,4 +6,7 @@
             <password>${env.osshr_password}</password>
         </server>
     </servers>
+    <activeProfiles>
+        <activeProfile>gpg</activeProfile>
+    </activeProfiles>
 </settings>
