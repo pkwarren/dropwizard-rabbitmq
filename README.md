@@ -7,7 +7,7 @@ Dropwizard RabbitMQ
 
 Rabbitmq configuration, metrics, health-checks and lifecycle management integrated with dropwizard, focused on common use cases. Inspired by [dropwizard-core](https://github.com/dropwizard/dropwizard/tree/master/dropwizard-core) and [dropwizard-extra](//github.com/datasift/dropwizard-extra).
 
-Release Notes: 1.0.0.0
+Release Notes: 1.0.0.*
 ----------------------
 * All duration configurations have started to use the [Duration](https://github.com/dropwizard/dropwizard/blob/93efb8013e05664587deca34fecfbc2f00a42b92/dropwizard-util/src/main/java/io/dropwizard/util/Duration.java) class. You will want to update your configuration to specify the time unit. For example: 'requestedHeartbeat: 10' should become 'requestedHeartbeat: 10s' and 'handshakeTimeout: 10000' should become 'handshakeTimeout: 10000ms'  
 
