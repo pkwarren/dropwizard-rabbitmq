@@ -7,8 +7,12 @@ Dropwizard RabbitMQ
 
 Rabbitmq configuration, metrics, health-checks and lifecycle management integrated with dropwizard, focused on common use cases. Inspired by [dropwizard-core](https://github.com/dropwizard/dropwizard/tree/master/dropwizard-core) and [dropwizard-extra](//github.com/datasift/dropwizard-extra).
 
+Release Notes
+-------------
+* 1.0.0.0 - All duration configurations have started to use the [Duration](https://github.com/dropwizard/dropwizard/blob/93efb8013e05664587deca34fecfbc2f00a42b92/dropwizard-util/src/main/java/io/dropwizard/util/Duration.java) class. You will want to update your configuration to specify the time unit. For example: 'requestedHeartbeat: 10' should become 'requestedHeartbeat: 10s' and 'handshakeTimeout: 10000' should become 'handshakeTimeout: 10000ms'  
+
 Configuration
------
+-------------
 Configurations are mapped to the class [ConnectionConfiguration](/src/main/java/io/codemonastery/dropwizard/rabbitmq/ConnectionConfiguration.java).
 Below is an example configuration for [JobConsumerService](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerService.java) which is configured by [JobConsumerServiceConfiguration](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example/consumer/JobConsumerServiceConfiguration.java).
 Naturally you can have multiple configurations per application.
@@ -49,7 +53,7 @@ public class JobConsumerServiceConfiguration extends Configuration {
 ```
 
 Simple Usage
------
+------------
 Easy to use, but if initial connection fails no retry will be performed. This **may** be preferable if your application is running in a container manager which will reset your application on failure.
 ``` java
 final ExecutorService deliveryExecutor = environment.lifecycle()
@@ -77,5 +81,5 @@ configuration.getRabbitMq()
 ```
 
 Examples
------
+--------
 [Producer/Consumer examples are located within the test directory](/src/test/java/io/codemonastery/dropwizard/rabbitmq/example). There is a producer, which sends id's to a queue, and a consumer which does fake work on those id's and publishes a status to a topic.
