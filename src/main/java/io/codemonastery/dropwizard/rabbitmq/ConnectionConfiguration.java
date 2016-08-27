@@ -3,6 +3,7 @@ package io.codemonastery.dropwizard.rabbitmq;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
 import io.dropwizard.util.Duration;
+import io.dropwizard.validation.MaxDuration;
 import io.dropwizard.validation.MinDuration;
 
 import javax.validation.constraints.Min;
@@ -29,20 +30,25 @@ public class ConnectionConfiguration {
     private Integer requestedFrameMax;
 
     @MinDuration(value = 0, unit = TimeUnit.SECONDS)
+    @MaxDuration(value = Integer.MAX_VALUE, unit = TimeUnit.SECONDS)
     private Duration requestedHeartbeat;
 
     @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    @MaxDuration(value = Integer.MAX_VALUE, unit = TimeUnit.MILLISECONDS)
     private Duration connectionTimeout;
 
     @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    @MaxDuration(value = Integer.MAX_VALUE, unit = TimeUnit.MILLISECONDS)
     private Duration handshakeTimeout;
 
     @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    @MaxDuration(value = Integer.MAX_VALUE, unit = TimeUnit.MILLISECONDS)
     private Duration shutdownTimeout;
 
     private Map<String, Object> clientProperties;
 
     @MinDuration(value = 0, unit = TimeUnit.MILLISECONDS)
+    @MaxDuration(value = Long.MAX_VALUE, unit = TimeUnit.MILLISECONDS)
     private Duration networkRecoveryInterval;
 
     @JsonProperty
