@@ -35,6 +35,7 @@ public class ConnectionFactory extends ConnectionConfiguration {
      * @param env dropwizard environment
      * @param deliveryExecutor executor
      * @param name name of rabbitmq connection
+     * @return Connection connection
      * @throws IOException if we cannot connect
      * @throws TimeoutException if we timeout while trying to connect
      */
@@ -54,6 +55,7 @@ public class ConnectionFactory extends ConnectionConfiguration {
      * @param metrics metric registry, nullable
      * @param deliveryExecutor the executor used by rabbitmq client to deliver messages
      * @param name name of rabbitmq connection
+     * @return Connection connection
      * @throws IOException if we cannot connect
      * @throws TimeoutException if we timeout while trying to connect
      */
