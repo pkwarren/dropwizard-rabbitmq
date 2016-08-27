@@ -25,7 +25,7 @@ public class ConnectionFactory extends ConnectionConfiguration {
 
     private ConnectionMetrics metrics;
 
-    public ConnectionFactory customeMetrics(ConnectionMetrics metrics){
+    public ConnectionFactory customMetrics(ConnectionMetrics metrics){
         this.metrics = metrics;
         return this;
     }
@@ -36,11 +36,12 @@ public class ConnectionFactory extends ConnectionConfiguration {
      * @param deliveryExecutor executor
      * @param name name of rabbitmq connection
      * @return connection
-     * @throws Exception
+     * @throws IOException if we cannot connect
+     * @throws TimeoutException if we timeout while trying to connect
      */
     public Connection build(final Environment env,
                             final ExecutorService deliveryExecutor,
-                            final String name) throws Exception {
+                            final String name) throws IOException, TimeoutException {
         final HealthCheckRegistry healthChecks = env.healthChecks();
         final LifecycleEnvironment lifecycle = env.lifecycle();
         final MetricRegistry metrics = env.metrics();
@@ -54,8 +55,8 @@ public class ConnectionFactory extends ConnectionConfiguration {
      * @param metrics metric registry, nullable
      * @param deliveryExecutor the executor used by rabbitmq client to deliver messages
      * @param name name of rabbitmq connection
-     * @throws IOException
-     * @throws TimeoutException
+     * @throws IOException if we cannot connect
+     * @throws TimeoutException if we timeout while trying to connect
      */
     public Connection build(@Nullable HealthCheckRegistry healthChecks,
                             @Nullable LifecycleEnvironment lifecycle,
@@ -78,12 +79,11 @@ public class ConnectionFactory extends ConnectionConfiguration {
      * @param deliveryExecutor the executor used by rabbitmq client to deliver messages
      * @param name name of rabbitmq connection
      * @param callback callback when done - which may be after application start
-     * @throws Exception
      */
     public void buildRetryInitialConnect(final Environment env,
                                          final ExecutorService deliveryExecutor,
                                          final String name,
-                                         final ConnectedCallback callback) throws Exception {
+                                         final ConnectedCallback callback) {
         final com.rabbitmq.client.ConnectionFactory connectionFactory = makeConnectionFactory();
         final ScheduledExecutorService initialConnectExecutor = env.lifecycle()
                 .scheduledExecutorService(name + "-initial-connect-thread")
