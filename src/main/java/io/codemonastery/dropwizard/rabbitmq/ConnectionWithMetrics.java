@@ -47,6 +47,11 @@ class ConnectionWithMetrics implements Connection {
     }
 
     @Override
+    public String getClientProvidedName() {
+        return delegate.getClientProvidedName();
+    }
+
+    @Override
     public Map<String, Object> getServerProperties() {
         return delegate.getServerProperties();
     }
