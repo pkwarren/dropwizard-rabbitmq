@@ -3,6 +3,7 @@ package io.codemonastery.dropwizard.rabbitmq;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.Recoverable;
 
 /**
  * Internal use.
@@ -17,11 +18,15 @@ class WrappedConnectionMetrics implements ConnectionMetrics {
     }
 
     public Connection wrap(Connection connection) {
-        return new ConnectionWithMetrics(connection, this);
+        return connection instanceof Recoverable
+                ? new AutoRecoveringConnectionWithMetrics(connection, this)
+                : new ConnectionWithMetrics(connection, this);
     }
 
     public Channel wrap(Channel channel) {
-        return new ChannelWithMetrics(channel, this);
+        return channel instanceof Recoverable
+                ? new AutorecoveringChannelWithMetrics(channel, this)
+                : new ChannelWithMetrics(channel, this);
     }
 
     public Consumer wrap(Consumer callback) {
@@ -52,4 +57,5 @@ class WrappedConnectionMetrics implements ConnectionMetrics {
     public void published() {
         delegate.published();
     }
+
 }

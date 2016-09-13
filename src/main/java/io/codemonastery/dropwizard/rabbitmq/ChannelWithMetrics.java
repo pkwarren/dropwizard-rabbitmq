@@ -8,8 +8,8 @@ import java.util.concurrent.TimeoutException;
 
 class ChannelWithMetrics implements Channel {
 
-    private final Channel delegate;
-    private final WrappedConnectionMetrics connectionMetrics;
+    final Channel delegate;
+    final WrappedConnectionMetrics connectionMetrics;
 
     public ChannelWithMetrics(Channel delegate, WrappedConnectionMetrics connectionMetrics) {
         this.delegate = delegate;

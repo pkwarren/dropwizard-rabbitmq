@@ -8,8 +8,8 @@ import java.util.Map;
 
 class ConnectionWithMetrics implements Connection {
 
-    private final Connection delegate;
-    private final WrappedConnectionMetrics connectionMetrics;
+    final Connection delegate;
+    final WrappedConnectionMetrics connectionMetrics;
 
     ConnectionWithMetrics(Connection delegate, WrappedConnectionMetrics connectionMetrics) {
         this.delegate = delegate;

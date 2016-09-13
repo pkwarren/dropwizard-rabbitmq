@@ -5,12 +5,14 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.Recoverable;
 import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import io.dropwizard.lifecycle.setup.ScheduledExecutorServiceBuilder;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.util.Duration;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -150,4 +152,60 @@ public class ConnectionFactoryTest {
         Thread.sleep(1000);
         assertFalse(called[0]);
     }
+
+    @Test
+     public void testRegisterRecoverWithNetworkRecovery() throws Exception {
+        Connection connection = null;
+        try {
+            ConnectionFactory connectionFactory = new ConnectionFactory();
+            connection = connectionFactory.build(environment, deliveryExecutor, "ConnectionFactoryTest");
+            assertTrue(connection instanceof Recoverable);
+
+            Channel channel = null;
+            try {
+                channel = connection.createChannel();
+                assertTrue(channel instanceof Recoverable);
+
+            } finally {
+                if (channel != null) {
+                    channel.close();
+                }
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    /*
+        Must disable automaticRecovery in ConnectionConfiguration for this to work.
+        Since that is always enabled, this test will never pass unless we change our minds
+        about what is configurable.
+     */
+    @Ignore
+    @Test
+    public void testRegisterRecoverWithNoNetworkRecovery() throws Exception {
+        Connection connection = null;
+        try {
+            connection = new ConnectionFactory().build(environment, deliveryExecutor, "ConnectionFactoryTest");
+            assertFalse(connection instanceof Recoverable);
+
+            Channel channel = null;
+            try {
+                channel = connection.createChannel();
+                assertFalse(channel instanceof Recoverable);
+
+            } finally {
+                if (channel != null) {
+                    channel.close();
+                }
+            }
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
 }
